@@ -17,6 +17,8 @@ import com.absjrdev.dslist.dto.ReplacementDTO;
 import com.absjrdev.dslist.services.GameListService;
 import com.absjrdev.dslist.services.GameService;
 
+import io.swagger.v3.oas.annotations.Operation;
+
 @RestController
 @RequestMapping(value = "/list")
 public class GameListController {
@@ -27,18 +29,21 @@ public class GameListController {
 	private GameService gameService;
 
 	@GetMapping
+	@Operation(summary = "Get all types of list")
 	public ResponseEntity<List<GameListDTO>> findAll() {
 		List<GameListDTO> result = gameListService.findAll();
 		return ResponseEntity.ok(result);
 	}
 
 	@GetMapping(value = "/{lisId}/games")
+	@Operation(summary = "Get games by list id")
 	public ResponseEntity<List<GameMinDTO>> findByList(@PathVariable Long lisId) {
 		List<GameMinDTO> result = gameService.findByList(lisId);
 		return ResponseEntity.ok(result);
 	}
 	
 	@PostMapping(value = "/{lisId}/replacement")
+	@Operation(summary = "Change the game's position in the list")	
 	public void move(@PathVariable Long lisId , @RequestBody ReplacementDTO body) {
 		gameListService.move(lisId,body.getSourceIndex(), body.getDestinationIndex());
 		
